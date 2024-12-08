@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Graduate';
+  src: url('font/Graduate-Regular.ttf');
+}
+
+.columnVertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
