@@ -20,7 +20,7 @@ const Tabs = ({ Splits, ILs, Segments }) => {
       <ul className="flex shadow-[0px_10px_20px_-3px_rgba(0,0,0,0.1)] bg-slate-800 relative rounded-[100px] justify-between top-0 left-0 text-white">
         {listElement.map((e) => (
           <li
-            className={`flex items-center justify-center h-[54px] w-[175px] text-[1.25rem] font-[500] z-[2] cursor-pointer ${
+            className={`flex items-center justify-center h-[54px] w-[150px] text-[1.25rem] font-[500] z-[2] cursor-pointer ${
               activeTab === 0 ? 'active' : ''
             }`}
             onClick={() => setActiveTab(e.val)}
@@ -30,7 +30,7 @@ const Tabs = ({ Splits, ILs, Segments }) => {
           </li>
         ))}
         <span
-          className="absolute flex h-[54px] w-[175px] bg-green-700 z-[1] rounded-[99px] shadow-[0px_10px_20px_-3px_rgb(21,128,61)]"
+          className="absolute flex h-[54px] w-[150px] bg-green-700 z-[1] rounded-[99px] shadow-[0px_10px_20px_-3px_rgb(21,128,61)]"
           style={{
             transition: `0.25s ease-out`,
             transform: `translateX(${activeTab}00%)`,
