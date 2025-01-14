@@ -4,9 +4,14 @@ import {
   nameLabelsILs,
   dataHitsAccumulate,
   ilLabelsIndex,
+  dataHitsTotal,
 } from '../data/info'
 
 const ILs = () => {
+  const accumulatedHits = dataHitsAccumulate()
+  const totalHits = dataHitsTotal()
+  const names = nameLabelsILs()
+
   return (
     <table className="table-auto w-full text-center">
       <thead className="font-bold uppercase text-white bg-gray-900 text-center">
@@ -22,17 +27,29 @@ const ILs = () => {
         </tr>
       </thead>
       <tbody>
-        {nameLabelsILs().map((name, i) => (
+        {names.map((name, i) => (
           <Row
             name={name}
             index={i}
             key={name + i}
-            hits={dataHitsAccumulate()}
-            sect={'ILs'}
+            hits={accumulatedHits}
+            sect="ILs"
             indexSections={ilLabelsIndex}
           />
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          <td className="p-3 whitespace-nowrap border">
+            <div className="font-bold text-white">TOTAL:</div>
+          </td>
+          {totalHits.map((data, i) => (
+            <td className="p-3 whitespace-nowrap border" key={i}>
+              <div className="font-bold text-white">{data}</div>
+            </td>
+          ))}
+        </tr>
+      </tfoot>
     </table>
   )
 }

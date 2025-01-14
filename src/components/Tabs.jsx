@@ -3,11 +3,7 @@ import { useState } from 'react'
 const Tabs = ({ Splits, ILs, Segments }) => {
   const [activeTab, setActiveTab] = useState(0)
 
-  const page = {
-    0: <Splits />,
-    1: <ILs />,
-    2: <Segments />,
-  }
+  const page = [<Splits />, <ILs />, <Segments />]
 
   const listElement = [
     { name: 'SPLITS', val: 0 },

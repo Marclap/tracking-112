@@ -2,6 +2,8 @@ import { dataHits, labels, dataHitsTotal } from '../data/info'
 import Row from '../components/Row'
 
 const Splits = () => {
+  const totalHits = dataHitsTotal()
+
   return (
     <table className="table-auto w-full text-center">
       <thead className="font-bold uppercase text-white bg-gray-900 text-center">
@@ -23,7 +25,7 @@ const Splits = () => {
             index={i}
             key={name + i}
             hits={dataHits}
-            sect={'splits'}
+            sect="splits"
           />
         ))}
       </tbody>
@@ -32,8 +34,8 @@ const Splits = () => {
           <td className="p-3 whitespace-nowrap border" colSpan={2}>
             <div className="font-bold text-white">TOTAL:</div>
           </td>
-          {dataHitsTotal().map((data) => (
-            <td className="p-3 whitespace-nowrap border" key={data}>
+          {totalHits.map((data, i) => (
+            <td className="p-3 whitespace-nowrap border" key={i}>
               <div className="font-bold text-white">{data}</div>
             </td>
           ))}

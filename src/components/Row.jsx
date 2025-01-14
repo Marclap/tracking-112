@@ -1,55 +1,34 @@
+import { Fragment } from 'react'
+
 const Row = ({ name, index, hits, sect, indexSections }) => {
   const getColumsVertical = (i) => {
-    const data = {
-      202: (
-        <td className="p-3 whitespace-nowrap border" rowSpan={10}>
-          <div className="flex flex-col columnVertical justify-center items-center w-full">
-            Pantheon of the Master
-          </div>
-        </td>
-      ),
-      212: (
-        <td className="p-3 whitespace-nowrap border" rowSpan={10}>
-          <div className="flex flex-col columnVertical justify-center items-center w-full">
-            Pantheon of the Artist
-          </div>
-        </td>
-      ),
-      222: (
-        <td className="p-3 whitespace-nowrap border" rowSpan={10}>
-          <div className="flex flex-col columnVertical justify-center items-center w-full">
-            Pantheon of the Sage
-          </div>
-        </td>
-      ),
-      232: (
-        <td className="p-3 whitespace-nowrap border" rowSpan={10}>
-          <div className="flex flex-col columnVertical justify-center items-center w-full">
-            Pantheon of the Knight
-          </div>
-        </td>
-      ),
-      242: (
-        <td className="p-3 whitespace-nowrap border" rowSpan={42}>
-          <div className="flex flex-col columnVertical justify-center items-center w-full">
-            Pantheon of Hallownest
-          </div>
-        </td>
-      ),
+    const pantheons = {
+      202: 'Pantheon of the Master',
+      212: 'Pantheon of the Artist',
+      222: 'Pantheon of the Sage',
+      232: 'Pantheon of the Knight',
+      242: 'Pantheon of Hallownest',
     }
-    return data[i]
+    const rowSpan = i === 242 ? 42 : 10
+    return pantheons[i] ? (
+      <td className="p-3 whitespace-nowrap border" rowSpan={rowSpan}>
+        <div className="flex flex-col columnVertical justify-center items-center w-full">
+          {pantheons[i]}
+        </div>
+      </td>
+    ) : null
   }
 
   const getDataSection = (i, hits, indexSections) => {
-    let r = indexSections[i],
-      l = i - 1 < 0 ? 0 : indexSections[i - 1]
-    let data = hits[r] - hits[l]
+    const r = indexSections[i]
+    const l = i - 1 < 0 ? 0 : indexSections[i - 1]
+    const data = hits[r] - hits[l]
     return (
       <td
         className={`p-3 whitespace-nowrap border text-white ${
           data === 0 ? 'bg-green-700' : 'bg-red-900'
         }`}
-        key={name}
+        key={`${name}-${i}`}
       >
         {data}
       </td>
@@ -69,10 +48,38 @@ const Row = ({ name, index, hits, sect, indexSections }) => {
 
   const getNamesSegment = (name) => {
     const names = {
-      'Trail of the fool': 'Coliseums',
-      'Pantheon of Hallownest': 'Godhome',
+      'Trail of the Fool': 'Coliseums',
+      'Absolute Radiance': 'Godhome',
     }
     return names[name] || name
+  }
+
+  const renderHits = () => {
+    return hits.map((data, i) => (
+      <td
+        className={`p-3 whitespace-nowrap border text-white ${
+          data[index] === 0 ? 'bg-green-700' : 'bg-red-900'
+        }`}
+        key={`${name}-${index}-${i}`}
+      >
+        {data[index]}
+      </td>
+    ))
+  }
+
+  const renderSection = (getNamesFunction) => {
+    return (
+      <tr>
+        <td className="p-3 whitespace-nowrap border">
+          {getNamesFunction(name)}
+        </td>
+        {hits.map((data, i) => (
+          <Fragment key={`${name}-${index}-${i}`}>
+            {getDataSection(index, data, indexSections)}
+          </Fragment>
+        ))}
+      </tr>
+    )
   }
 
   return (
@@ -86,36 +93,11 @@ const Row = ({ name, index, hits, sect, indexSections }) => {
           >
             {name}
           </td>
-          {hits.map((data, i) => (
-            <td
-              className={`p-3 whitespace-nowrap border text-white ${
-                data[index] === 0 ? 'bg-green-700' : 'bg-red-900'
-              }`}
-              key={name + index + i}
-            >
-              {data[index]}
-            </td>
-          ))}
+          {renderHits()}
         </tr>
       )}
-      {sect === 'ILs' && (
-        <tr>
-          <td className="p-3 whitespace-nowrap border">{getNamesILs(name)}</td>
-          {hits.map((data, i) => (
-            <>{getDataSection(index, data, indexSections)}</>
-          ))}
-        </tr>
-      )}
-      {sect === 'segments' && (
-        <tr>
-          <td className="p-3 whitespace-nowrap border">
-            {getNamesSegment(name)}
-          </td>
-          {hits.map((data, i) => (
-            <>{getDataSection(index, data, indexSections)}</>
-          ))}
-        </tr>
-      )}
+      {sect === 'ILs' && renderSection(getNamesILs)}
+      {sect === 'segments' && renderSection(getNamesSegment)}
     </>
   )
 }

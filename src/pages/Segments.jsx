@@ -4,9 +4,14 @@ import {
   nameLabelsSegments,
   dataHitsAccumulate,
   segmentsLabelsIndex,
+  dataHitsTotal,
 } from '../data/info'
 
 const Segments = () => {
+  const accumulatedHits = dataHitsAccumulate()
+  const totalHits = dataHitsTotal()
+  const names = nameLabelsSegments()
+
   return (
     <table className="table-auto w-full text-center">
       <thead className="font-bold uppercase text-white bg-gray-900 text-center">
@@ -22,17 +27,29 @@ const Segments = () => {
         </tr>
       </thead>
       <tbody>
-        {nameLabelsSegments().map((name, i) => (
+        {names.map((name, i) => (
           <Row
             name={name}
             index={i}
             key={name + i}
-            hits={dataHitsAccumulate()}
-            sect={'segments'}
+            hits={accumulatedHits}
+            sect="segments"
             indexSections={segmentsLabelsIndex}
           />
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          <td className="p-3 whitespace-nowrap border">
+            <div className="font-bold text-white">TOTAL:</div>
+          </td>
+          {totalHits.map((data, i) => (
+            <td className="p-3 whitespace-nowrap border" key={i}>
+              <div className="font-bold text-white">{data}</div>
+            </td>
+          ))}
+        </tr>
+      </tfoot>
     </table>
   )
 }
